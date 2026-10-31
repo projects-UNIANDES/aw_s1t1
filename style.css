@@ -79,3 +79,85 @@ li {
   color: #6c757d;
   font-style: italic;
 }
+
+.subtitulo {
+  color: #6c757d;
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: #0066aa;
+  margin-bottom: 6px;
+}
+
+input[type="number"],
+select {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  font-size: 16px;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+input[type="number"]:focus,
+select:focus {
+  border-color: #86b7fe;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(13, 110, 254, 0.25);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0b5ed7;
+}
+
+button:active {
+  background-color: #0a58ca;
+}
+
+.mensaje {
+  margin-top: 22px;
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.resultado {
+  background-color: #e7f1ff;
+  border: 1px solid #b6d4fe;
+  color: #084298;
+}
+
+.resultado .operacion {
+  display: block;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.resultado strong {
+  font-size: 28px;
+}
+
+.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
+}

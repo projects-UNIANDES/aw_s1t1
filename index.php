@@ -1,3 +1,61 @@
+<?php
+
+$numero1 = "";
+$numero2 = "";
+$operacion = "suma";
+$resultado = null;
+$error = "";
+
+$operaciones = [
+    "suma" => ["simbolo" => "+", "nombre" => "Suma"],
+    "resta" => ["simbolo" => "-", "nombre" => "Resta"],
+    "multiplicacion" => ["simbolo" => "x", "nombre" => "Multiplicación"],
+    "division" => ["simbolo" => "÷", "nombre" => "División"]
+];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $numero1 = $_POST["numero1"] ?? "";
+    $numero2 = $_POST["numero2"] ?? "";
+    $operacion = $_POST["operacion"] ?? "suma";
+
+    if (!is_numeric($numero1) || !is_numeric($numero2)) {
+        $error = "Ingrese dos números válidos.";
+    } else {
+        $a = (float) $numero1;
+        $b = (float) $numero2;
+
+        switch ($operacion) {
+            case "suma":
+                $resultado = $a + $b;
+                break;
+            case "resta":
+                $resultado = $a - $b;
+                break;
+            case "multiplicacion":
+                $resultado = $a * $b;
+                break;
+            case "division":
+                if ($b == 0) {
+                    $error = "No se puede dividir entre cero.";
+                } else {
+                    $resultado = $a / $b;
+                }
+                break;
+            default:
+                $error = "Operación no válida.";
+        }
+    }
+}
+
+$simbolos = [
+    "suma" => "+",
+    "resta" => "-",
+    "multiplicacion" => "×",
+    "division" => "÷",
+];
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,7 +80,7 @@
         <section class="tarjeta">
             <h2> Perfil Profesional</h2>
             <p>Desarrollador Full Stack y Técnico Superior en Desarrollo de Software,
-                actualmente estudiante de Ingeniría en Software. Desde 2022 desarrollo
+                actualmente estudiante de Ingeniería en Software. Desde 2022 desarrollo
                 aplicaciones web, móviles y servicios backend, participando en todo el
                 ciclo de vida del software: análisis, desarrollo, base de datos.
             </p>
@@ -42,8 +100,8 @@
                 <div class="item-cabecera">
                     <h3>Técnico Superior en Desarrollo de Software</h3>
                     <span class="fecha">2026</span>
-                    <p class="lugar">Instituto Superior Tecnológico Quito Metropolitano (ITSQMET)</p>
                 </div>
+                <p class="lugar">Instituto Superior Tecnológico Quito Metropolitano (ITSQMET)</p>
             </div>
         </section>
 
@@ -86,59 +144,58 @@
                 <li><strong>Correo: </strong> garaque@correo.com</li>
             </ul>
         </section>
+
+
+
+        <section class="tarjeta" id="calculadora">
+            <h2>Calculadora</h2>
+
+            <form method="post" action="#calculadora">
+                <label for="numero1">Primer número</label>
+                <input
+                    type="number"
+                    step="any"
+                    id="numero1"
+                    name="numero1"
+                    value="<?= htmlspecialchars($numero1) ?>"
+                    required />
+
+                <label for="operacion">Operación</label>
+                <select id="operacion" name="operacion">
+                    <?php foreach ($simbolos as $valor => $simbolo): ?>
+                        <option value="<?= $valor ?>" <?= $operacion === $valor ? "selected" : "" ?>>
+                            <?= $simbolo ?> <?= ucfirst($valor) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+                <label for="numero2">Segundo número</label>
+                <input
+                    type="number"
+                    step="any"
+                    id="numero2"
+                    name="numero2"
+                    value="<?= htmlspecialchars($numero2) ?>"
+                    required />
+
+                <button type="submit">Calcular</button>
+            </form>
+
+            <?php if ($error !== ""): ?>
+                <div class="mensaje error"><?= $error ?></div>
+            <?php elseif ($resultado !== null): ?>
+                <div class="mensaje resultado">
+                    <span class="operacion">
+                        <?= htmlspecialchars($numero1) ?>
+                        <?= $simbolos[$operacion] ?>
+                        <?= htmlspecialchars($numero2) ?> =
+                    </span>
+                    <strong><?= round($resultado, 4) ?></strong>
+                </div>
+            <?php endif; ?>
+        </section>
+
     </main>
-
-    <?php
-
-    $numero1 = "";
-    $numero2 = "";
-    $operacion = "suma";
-    $resultado = null;
-    $error = "";
-
-    $simbolos = [
-        "suma" => "+",
-        "resta" => "-",
-        "multiplicacion" => "x",
-        "division" => "÷"
-    ];
-
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $numero1 = $_POST["numero1"] ?? "";
-        $numero2 = $_POST["numero2"] ?? "";
-        $operacion = $_POST["operacion"] ?? "suma";
-
-        if (!is_numeric($numero1) || !is_numeric($numero2)) {
-            $error = "Ingrese dos números validos.";
-        } else {
-            $a = (float) $numero1;
-            $b = (float) $numero2;
-
-            switch ($operacion) {
-                case "suma":
-                    $resultado = $a + $b;
-                    break;
-                case "resta":
-                    $resultado = $a - $b;
-                    break;
-                case "multiplicacion":
-                    $resultado = $a * $b;
-                    break;
-                case "division":
-                    if ($b == 0) {
-                        $error = "No se puede dividir cero.";
-                    } else {
-                        $resultado = $a / $b;
-                    }
-                    break;
-                default:
-                    $error = "Operacion no válida.";
-            }
-        }
-    }
-
-    ?>
-
 </body>
 
 </html>
